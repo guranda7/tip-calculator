@@ -49,7 +49,7 @@ function calculateTip(percent) {
                     tipAmountPerson.textContent = "$0.0";
                     totalResult.textContent = "$0.0";
                     return;
-       } else if(!billAmount.value || !peopleAmount.value){
+       } else if(!billAmount.value || !peopleAmount.value || !customInput.value){
                     tipAmountPerson.textContent = "$0.0";
                     totalResult.textContent = "$0.0";
                     return;
@@ -84,7 +84,8 @@ customInput.addEventListener("input", () => {
 resetBtn.addEventListener("click", () => {
     tipAmountPerson.textContent = "$0.0";
     totalResult.textContent = "$0.0";
-    peopleAmount.setAttribute("style", "border: 0.2rem solid black");
+    peopleAmount.setAttribute("style", "border: 0.2rem none");
+    billAmount.setAttribute("style", "border: 0.2rem none");
     warningMessage.textContent = "";
     billAmount.value="";
     peopleAmount.value="";
