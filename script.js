@@ -11,9 +11,15 @@ const warningMessage = document.querySelector(".people-amount-warning");
 const customInput = document.querySelector(".custom")
 
 function calculateTip(percent) {
-           /* if(Number(peopleAmount.value) === 0 || 
-                !Number.isInteger(Number(peopleAmount.value)) || 
-                Number(peopleAmount.value) < 0     
+            if(!Number(billAmount.value) || Number(billAmount.value) <= 0){
+                billAmount.setAttribute("style", "border: 0.2rem solid red")
+                return;
+            }
+
+
+
+            if (Number(peopleAmount.value) <= 0 || 
+                !Number.isInteger(Number(peopleAmount.value))  
                 ){
                     peopleAmount.setAttribute("style", "border: 0.2rem solid red");
                     warningMessage.textContent = "Can't be zero"; 
@@ -21,7 +27,8 @@ function calculateTip(percent) {
                     totalResult.textContent = "$0.0";
                     return;
                 } 
-                else if(!billAmount.value || !peopleAmount.value){
+                
+                if(!billAmount.value || !peopleAmount.value){
                     tipAmountPerson.textContent = "$0.0";
                     totalResult.textContent = "$0.0";
                     return;
@@ -31,42 +38,17 @@ function calculateTip(percent) {
                     peopleAmount.setAttribute("style", "border: 0.2rem solid black");
                     billAmount.setAttribute("style", "border: 0.2rem solid black");
                     warningMessage.textContent = "";
-                }*/
-
-    if(Number(billAmount.value) === 0 || 
-       !Number.isInteger(Number(billAmount.value)) || 
-       Number(billAmount.value) < 0  ) {
-
-        billAmount.setAttribute("style", "border: 0.2rem solid red");
-                    tipAmountPerson.textContent = "$0.0";
-                    totalResult.textContent = "$0.0";
-                    return;
-       } else if (Number(peopleAmount.value) === 0 || 
-                !Number.isInteger(Number(peopleAmount.value)) || 
-                Number(peopleAmount.value) < 0 ) {
-                    peopleAmount.setAttribute("style", "border: 0.2rem solid red");
-                    warningMessage.textContent = "Can't be zero"; 
-                    tipAmountPerson.textContent = "$0.0";
-                    totalResult.textContent = "$0.0";
-                    return;
-       } else if(!billAmount.value || !peopleAmount.value || !customInput.value){
-                    tipAmountPerson.textContent = "$0.0";
-                    totalResult.textContent = "$0.0";
-                    return;
                 }
-            
-                else {
-                    peopleAmount.setAttribute("style", "border: 0.2rem none");
-                    billAmount.setAttribute("style", "border: 0.2rem none");
-                    warningMessage.textContent = "";
-                }
+                
     
         const percentAmount = percent / 100;
         const totalTip = Number(billAmount.value * percentAmount);
         const tipAmount = Math.round(Number(totalTip / peopleAmount.value));
         tipAmountPerson.textContent = `$${tipAmount}`; 
-        const totalBill = Math.round(Number(billAmount.value) + totalTip);
-        const totalPerson = Math.round(Number(totalBill / Number(peopleAmount.value))); 
+        const totalBill = (Number(billAmount.value) + totalTip).toFixed(2);
+        const totalPerson = (Number(totalBill / Number(peopleAmount.value))).toFixed(2);
+
+        
         totalResult.textContent = `$${totalPerson}`;
         }
         
@@ -77,9 +59,15 @@ percentButtons.forEach(button => {
 })
 
 customInput.addEventListener("input", () => {
+    if (!customInput.value) {  
+        tipAmountPerson.textContent = "$0.0";
+        totalResult.textContent = "$0.0";
+        return;
+    }
     calculateTip(customInput.value)
         
 })
+
 
 resetBtn.addEventListener("click", () => {
     tipAmountPerson.textContent = "$0.0";
