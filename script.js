@@ -47,9 +47,15 @@ function calculateTip(percent) {
         tipAmountPerson.textContent = `$${tipAmount}`; 
         const totalBill = (Number(billAmount.value) + totalTip).toFixed(2);
         const totalPerson = (Number(totalBill / Number(peopleAmount.value))).toFixed(2);
-
-        
         totalResult.textContent = `$${totalPerson}`;
+
+        if(totalBill === "NaN" || totalPerson === "NaN" ){
+            tipAmountPerson.textContent = "$0.0";
+            totalResult.textContent = "$0.0";
+        } else {
+            tipAmountPerson.textContent = totalPerson;
+            totalResult.textContent = totalBill;
+        }
         }
         
 percentButtons.forEach(button => {
@@ -64,6 +70,11 @@ customInput.addEventListener("input", () => {
         totalResult.textContent = "$0.0";
         return;
     }
+
+    if(customInput.value <= 0) {
+        customInput.setAttribute("style", "border: 0.2rem solid red")
+        return; 
+    }
     calculateTip(customInput.value)
         
 })
@@ -74,9 +85,11 @@ resetBtn.addEventListener("click", () => {
     totalResult.textContent = "$0.0";
     peopleAmount.setAttribute("style", "border: 0.2rem none");
     billAmount.setAttribute("style", "border: 0.2rem none");
+    customInput.setAttribute("style", "border: 0.2rem none");
     warningMessage.textContent = "";
     billAmount.value="";
     peopleAmount.value="";
+    customInput.value = "";
 })
 
 
